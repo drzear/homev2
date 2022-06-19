@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: "Helvetica", sans-serif;
+    }
+    :root {
+        --main-background-color: hsl(0deg 0% 15%);;
+    }
+    .object-wrapper {
+        width: 950px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -475px;
+        background: none;
+    }
+    .object {
+        height: 700px;
+        width: 950px;
+        background-size: 100%;
+        background-position: center top;
+        background-repeat: no-repeat;
+    }
+    .speed-0 {
+        transform: translateZ(-6px) scale(7);
+    }
+    .speed-1 {
+        transform: translateZ(-5px) scale(6);
+    }
+    .speed-1pt5 {
+        transform: translateZ(-4.5px) scale(5.5);
+    }
+    .speed-2 {
+        transform: translateZ(-2.5px) scale(3.5);
+    }
+    .speed-3 {
+        transform: translateZ(-2px) scale(3);
+    }
+    .speed-6 {
+        transform: translateZ(0px) scale(1);
+    }
+    .sky {
+        margin-top: -1px;
+        height: 620px;
+        background-image: url("blueSky2.jpg");
+    }
+    .clouds {
+        margin-top: 49px;
+        height: 550px;
+        background-image: url("birds2.png");
+    }
+    .ryne {
+        margin-top: 97px;
+        height: 700px;
+        background-image: url("ryne2.png");
+    }
+    .stream {
+        margin-top: 254px;
+        height: 500px;
+        background-image: url("stream.png");
+    }
+    .iceland {
+        margin-top: 181px;
+        height: 500px;
+        background-image: url("iceland.png");
+    }
+    .content {
+        margin-top: 681px;
+        background: var(--main-background-color);
+        text-align: center;
+        clear: both;
+        position: absolute;
+        height: 1200px;
+        overflow: visible;
+    }
+    #parallax-container {
+        position: absolute;
+        perspective: 1px;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        overflow-x: hidden;
+        overflow-y: auto;
+        scroll-behavior: smooth;
+        background: #c7cbb9;
+    }
+    #framing-parent {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        height: 100%;
+        pointer-events: none;
+    }
+    .framing {
+        pointer-events: none;
+        z-index: 10000;
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        height: 100%;
+        top: 0px;
+        bottom: 0;
+        width: 100%;
+        margin-bottom: -200px;
+    }
+    .framing .fill {
+        width: 100%;
+        height: 100%;
+        background: var(--main-background-color);
+        position: absolute;
+    }
+    .framing.left {
+        left: -455px;
+        margin-left: -50vw;
+    }
+    .framing.right {
+        right: -455px;
+        margin-right: -50vw;
+    }
+</style>
+<body>
+    <div id="parallax-container">
+        <div class="object-wrapper speed-0">
+            <div class="object sky" backg></div>
+        </div>
+        <div class="object-wrapper speed-1pt5">
+            <div class="object clouds" backg></div>
+        </div>
+        <div class="object-wrapper speed-1">
+            <div class="object iceland"></div>
+        </div>
+        <div class="object-wrapper speed-1pt5">
+            <div class="object stream"></div>
+        </div>
+        <div class="object-wrapper speed-2">
+            <div class="object ryne"></div>
+        </div>
+        <div class="object-wrapper speed-2">
+            <div class="object content">
+
+            </div>
+        </div>
+    </div>
+    <div id="framing-parent">
+        <div class="framing left">
+          <div class="fill"></div>
+        </div>
+        <div class="framing right">
+          <div class="fill"></div>
+        </div>
+      </div>
+</body>
+</html>

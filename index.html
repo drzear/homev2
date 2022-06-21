@@ -16,7 +16,8 @@
         font-family: "Helvetica", sans-serif;
     }
     :root {
-        --main-background-color: hsl(0deg 0% 15%);;
+        --main-background-color: hsl(0deg 0% 15%);
+        --main-text-color: white;
     }
     .object-wrapper {
         width: 950px;
@@ -39,32 +40,46 @@
         transform: translateZ(-6px) scale(7);
     }
     .speed-1 {
-        transform: translateZ(-5px) scale(6);
-    }
-    .speed-1pt5 {
-        transform: translateZ(-4.5px) scale(5.5);
+        transform: translateZ(-5.5px) scale(6.5);
     }
     .speed-2 {
-        transform: translateZ(-2.5px) scale(3.5);
+        transform: translateZ(-5px) scale(6);
     }
     .speed-3 {
-        transform: translateZ(-2px) scale(3);
+        transform: translateZ(-4.5px) scale(5.5);
+    }
+    .speed-4 {
+        transform: translateZ(-2.5px) scale(3.5);
     }
     .speed-6 {
         transform: translateZ(0px) scale(1);
     }
     .sky {
         margin-top: -1px;
-        height: 620px;
+        height: 682px;
         background-image: url("blueSky2.jpg");
+        background-color: var(--main-background-color);
     }
-    .clouds {
+    .kayak {
+        margin-top: 32px;
+        height: 550px;
+        background-image: url("kayak.png");
+    }
+    .monument {
+        margin-top: -163px;
+        margin-left: -75px;
+        height: 550px;
+        background-image: url("washMon.png");
+    }
+    .birds {
         margin-top: 49px;
+        margin-left: 215px;
         height: 550px;
         background-image: url("birds2.png");
     }
     .ryne {
         margin-top: 97px;
+        margin-left: -65px;
         height: 700px;
         background-image: url("ryne2.png");
     }
@@ -81,11 +96,13 @@
     .content {
         margin-top: 681px;
         background: var(--main-background-color);
+        color: var(--main-text-color);
         text-align: center;
         clear: both;
         position: absolute;
         height: 1200px;
         overflow: visible;
+        padding-top: 20px;
     }
     #parallax-container {
         position: absolute;
@@ -141,21 +158,27 @@
         <div class="object-wrapper speed-0">
             <div class="object sky" backg></div>
         </div>
-        <div class="object-wrapper speed-1pt5">
-            <div class="object clouds" backg></div>
+        <div class="object-wrapper speed-1">
+            <div class="object kayak"></div>
         </div>
         <div class="object-wrapper speed-1">
+            <div class="object monument"></div>
+        </div>
+        <div class="object-wrapper speed-3">
+            <div class="object birds" backg></div>
+        </div>
+        <div class="object-wrapper speed-2">
             <div class="object iceland"></div>
         </div>
-        <div class="object-wrapper speed-1pt5">
+        <div class="object-wrapper speed-3">
             <div class="object stream"></div>
         </div>
-        <div class="object-wrapper speed-2">
+        <div class="object-wrapper speed-4">
             <div class="object ryne"></div>
         </div>
-        <div class="object-wrapper speed-2">
+        <div class="object-wrapper speed-4">
             <div class="object content">
-
+                Hi, I'm David (or Ryne)! I'm a Stockholm-based developer from Iowa City, IA, USA.
             </div>
         </div>
     </div>

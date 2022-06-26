@@ -1,19 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 <style>
-    body, html {
+    /* html { height: 100%; overflow: auto; } */
+    body {
         margin: 0;
         padding: 0;
         width: 100%;
         height: 100%;
         overflow: hidden;
-        font-family: "Helvetica", sans-serif;
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
+        -webkit-font-smoothing: antialiased;
+        /* font-family: "Helvetica", sans-serif; */
     }
     :root {
         --main-background-color: hsl(0deg 0% 15%);
@@ -37,19 +32,19 @@
         background-repeat: no-repeat;
     }
     .speed-0 {
-        transform: translateZ(-6px) scale(7);
-    }
-    .speed-1 {
-        transform: translateZ(-5.5px) scale(6.5);
-    }
-    .speed-2 {
-        transform: translateZ(-5px) scale(6);
-    }
-    .speed-3 {
         transform: translateZ(-4.5px) scale(5.5);
     }
+    .speed-1 {
+        transform: translateZ(-4px) scale(5);
+    }
+    .speed-2 {
+        transform: translateZ(-3.5px) scale(4.5);
+    }
+    .speed-3 {
+        transform: translateZ(-2px) scale(3);
+    }
     .speed-4 {
-        transform: translateZ(-2.5px) scale(3.5);
+        /* transform: translateZ(-2.5px) scale(3.5); */
     }
     .speed-6 {
         transform: translateZ(0px) scale(1);
@@ -100,9 +95,11 @@
         text-align: center;
         clear: both;
         position: absolute;
-        height: 1200px;
+        height: 3200px;
         overflow: visible;
         padding-top: 20px;
+        display: flex;
+        justify-content: center;
     }
     #parallax-container {
         position: absolute;
@@ -152,11 +149,24 @@
         right: -455px;
         margin-right: -50vw;
     }
+    .text {
+        width: clamp(100px, 90vw, 750px);
+    }
+    .navigation {
+        /* margin-top: 681px; */
+        position: sticky;
+        top: 0;
+        /* color: var(--main-text-color); */
+        color: black;
+        background-color: white;
+        display: flex;
+        justify-content: space-evenly;
+    }
 </style>
 <body>
     <div id="parallax-container">
         <div class="object-wrapper speed-0">
-            <div class="object sky" backg></div>
+            <div class="object sky"></div>
         </div>
         <div class="object-wrapper speed-1">
             <div class="object kayak"></div>
@@ -165,7 +175,7 @@
             <div class="object monument"></div>
         </div>
         <div class="object-wrapper speed-3">
-            <div class="object birds" backg></div>
+            <div class="object birds"></div>
         </div>
         <div class="object-wrapper speed-2">
             <div class="object iceland"></div>
@@ -176,9 +186,29 @@
         <div class="object-wrapper speed-4">
             <div class="object ryne"></div>
         </div>
+        <!-- <div class="object-wrapper speed-4"> -->
+            <!-- <div class="navigation">
+                TESTING
+            </div> -->
+        <!-- </div> -->
         <div class="object-wrapper speed-4">
             <div class="object content">
-                Hi, I'm David (or Ryne)! I'm a Stockholm-based developer from Iowa City, IA, USA.
+                <div class="text">
+                    <div class="navigation">
+                        <a href="" on:click={ () => window.scrollTo(0, 0) } >TOP</a>
+                        <a>ABOUT</a>
+                        <a>CONNECT</a>
+                    </div>
+                    Hi, I'm David (or Ryne)! I'm a Stockholm-based developer from Iowa City, IA, USA.
+                    
+                    <h1>about me</h1>
+                    I graduated from the University of Iowa in 2007 with a B.S. in Biology. From 2008 to 20015 I worked a variety of biology-related jobs, trying to figure out what I enjoy doing. I relocated to Sweden with my wife in 2017 and decided to use the change of scenery to change fields from Biology to data and programming. From 2018-2019 I worked as a Data Analyst for Radisson Hotel Group in Sweden and currently work as a BI developer for Radisson Hotel Group in Belgium (while still being based in Sweden). I love learning new technologies and working with data.
+
+                    We have a 1-year-old son and are currently living in Solna. In my spare time I like to hike, play board + video games, and learn new things.
+
+                    <h1>about this site</h1>
+                    This site was made using React.js (this is my first React project!), Typescript , Tailwindcss, and Echarts. You can find the source code here.
+                </div>
             </div>
         </div>
     </div>
@@ -191,4 +221,3 @@
         </div>
       </div>
 </body>
-</html>

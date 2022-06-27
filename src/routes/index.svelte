@@ -121,41 +121,41 @@
     .sky {
         margin-top: -1px;
         height: 682px;
-        background-image: url("blueSky2.jpg");
+        background-image: url("/static/blueSky2.jpg");
         background-color: var(--main-background-color);
     }
     .kayak {
         margin-top: 32px;
         height: 550px;
-        background-image: url("kayak.png");
+        background-image: url("/static/kayak.png");
     }
     .monument {
         margin-top: -163px;
         margin-left: -75px;
         height: 550px;
-        background-image: url("washMon.png");
+        background-image: url("/static/washMon.png");
     }
     .birds {
         margin-top: 49px;
         margin-left: 215px;
         height: 550px;
-        background-image: url("birds2.png");
+        background-image: url("/static/birds2.png");
     }
     .iceland {
         margin-top: 181px;
         height: 500px;
-        background-image: url("iceland.png");
+        background-image: url("/static/iceland.png");
     }
     .stream {
         margin-top: 254px;
         height: 500px;
-        background-image: url("stream.png");
+        background-image: url("/static/stream.png");
     }    
     .ryne {
         margin-top: 97px;
         margin-left: -65px;
         height: 700px;
-        background-image: url("ryne2.png");
+        background-image: url("/static/ryne2.png");
     }
     .content {
         margin-top: 681px;

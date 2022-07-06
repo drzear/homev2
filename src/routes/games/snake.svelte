@@ -136,38 +136,40 @@
     });
 </script>
 
-<div class="container">
-    {#if gameOver}
-        <div class="game-over">
-            Game Over =/
-            <button class="new-game" on:click={startNewGame}>
-                play again?
-            </button>
-        </div>
-    {/if}
-    {#each rows as row}
-        <div id="row" class="row">
-            {#each cols as col}
-                <div
-                    class:active={activePositions.includes(row + col)}
-                    class:food={foodPositions.includes(row + col)}
-                    class="col"
-                />
-            {/each}
-        </div>
-    {/each}
+<div class="main-container">
+    <div class="game-container">
+        {#if gameOver}
+            <div class="game-over">
+                Game Over =/
+                <button class="new-game" on:click={startNewGame}>
+                    play again?
+                </button>
+            </div>
+        {/if}
+        {#each rows as row}
+            <div id="row" class="row">
+                {#each cols as col}
+                    <div
+                        class:active={activePositions.includes(row + col)}
+                        class:food={foodPositions.includes(row + col)}
+                        class="col"
+                    />
+                {/each}
+            </div>
+        {/each}
+    </div>
 </div>
 
 <style>
     .new-game {
-        color: white;
-        background-color: black;
+        color: var(--main-background-color);
+        background-color: var(--main-text-color);
     }
     .game-over {
         position: absolute;
         height: 100vh;
         width: 90vw;
-        background-color: white;
+        background-color: var(--main-text-color);
         opacity: 0.8;
         font-size: 100px;
     }
@@ -176,8 +178,8 @@
         height: 40px;
     }
     .col {
-        color: white;
-        background-color: black;
+        color: var(--main-background-color);
+        background-color: var(--main-text-color);
         margin: 2px;
         width: 40px;
     }
@@ -187,12 +189,18 @@
     .food {
         background-color: red;
     }
-    .container {
+    .game-container {
         width: 90vw;
         height: 97vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         margin-left: 5vw;
+        background-color: var(--main-background-color);
+    }
+    .main-container {
+        width: 100%;
+        height: 100%;
+        background-color: var(--main-background-color);
     }
 </style>

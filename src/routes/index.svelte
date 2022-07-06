@@ -1,9 +1,23 @@
 <script>
+    const curDate = new Date();
+    const curYear = curDate.getFullYear();
+    const curMonth = curDate.getMonth();
+    const curDay = curDate.getDate();
+
+    let jackAge = curYear - 2019;
+    if (curMonth < 8) {
+        jackAge -= 1;
+    } else if (curMonth == 8) {
+        if (curDay <= 12) {
+            jackAge -= 1;
+        }
+    }
+
     const scrollToTop = () => {
         document.getElementById('parallax-container').scrollTo(0,0);
     }
-    const scrollToElement = () => {
-        document.getElementById('middle').scrollIntoView();
+    const scrollToElement = (element) => {
+        document.getElementById(element).scrollIntoView();
     }
 </script>
 
@@ -39,25 +53,37 @@
             <div class="object content">
                 <div class="content-inner">
                     <div class="navigation">
-                        <div href="" on:click={ () => scrollToTop() } >top</div>
-                        <div on:click={ () => scrollToElement('middle') }>about</div>
-                        <div>connect</div>
-                        <div on:click={ () => scrollToElement('games') }>games</div>
+                        <div class="nav-item" on:click={ () => scrollToTop() } >top</div>
+                        <div class="nav-item" on:click={ () => scrollToElement('middle') }>about</div>
+                        <!-- <div>connect</div> -->
+                        <div class="nav-item" on:click={ () => scrollToElement('games') }>games</div>
                     </div>
                     <div class="text">
                         Hi, I'm David (or Ryne)! I'm a Stockholm-based developer from Iowa City, IA, USA.
                         
-                        <h1>about me</h1>
-                        I graduated from the University of Iowa in 2007 with a B.S. in Biology. From 2008 to 20015 I worked a variety of biology-related jobs, trying to figure out what I enjoy doing. I relocated to Sweden with my wife in 2017 and decided to use the change of scenery to change fields from Biology to data and programming. From 2018-2019 I worked as a Data Analyst for Radisson Hotel Group in Sweden and currently work as a BI developer for Radisson Hotel Group in Belgium (while still being based in Sweden). I love learning new technologies and working with data.
+                        <div id="middle" class="columns">
+                            <div class="column">
+                                <h1>about me</h1>
+                                I have a B.S. in Biology and worked a variety of biology-related jobs for 7 years. I relocated to Sweden in 2017 and decided to use the change of scenery to change fields from Biology to data and programming, working as an analyst and developer @ <a class="white-link" target="_blank" href="https://www.radissonhotels.com/en-us/corporate" title="Radisson Hotels">RHG</a> for 4 years. I currently work @ <a class="white-link" target="_blank" href="https://www.bestwestern.se/" title="Best Western Hotels">BWH Hotel Group</a> as a developer. I love learning new technologies and working with data.
 
-                        <p id="middle">We have a 1-year-old son and are currently living in Solna. In my spare time I like to hike, play board + video games, and learn new things.</p>
-
-                        <h1>about this site</h1>
-                        This site was made as an excuse to play with parallax and Svelte 😁. You can find the source code <a class="white-link" target="_blank" href="https://github.com/drzear/homev2">here</a>.
-                        Check out my old React/Tailwind/react-spring/Echarts <a class="white-link" target="_blank" href="https://drzear.github.io/">here</a>
+                                <p>I have a {jackAge}-year-old son and live in Solna. In my spare time I like to hike, play board + video games, and learn new things.</p>
+                            </div>
+                            <div class="column">
+                                <h1>about this site</h1>
+                                This site was made as an excuse to play with parallax and Svelte 😁. You can find the source code <a class="white-link" target="_blank" href="https://github.com/drzear/homev2">here</a>.
+                                You can check out my old React/Tailwind/react-spring/Echarts site <a class="white-link" target="_blank" href="https://drzear.github.io/">here</a>.
+                                <h1>connect</h1>
+                                You can find me here:
+                                <div class="connect">
+                                    <a class="white-link" target="_blank" href="https://www.linkedin.com/in/david-zear-68244910/">linkedin</a>
+                                    <a class="white-link" target="_blank" href="https://github.com/drzear">github</a>
+                                    <a class="white-link" target="_blank" href="mailto:drzear@gmail.com">gmail</a>
+                                </div>
+                            </div>
+                        </div>
 
                         <h1 id="games">games</h1>
-                        <a href="/games/snake">snake</a>
+                        <a class="white-link" href="/games/snake">snake</a>
                     </div>
                 </div>
             </div>
@@ -74,6 +100,27 @@
 </body>
 
 <style>
+    .connect {
+        padding-top: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+    }
+    .columns {
+        padding-top: 20px;
+        display: flex;
+        flex-direction: row;
+    }
+    @media (max-width: 800px) {
+        .columns {
+            flex-direction: column;
+        }
+    }
+    .column {
+        flex: 50%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
     /* html { height: 100%; overflow: auto; } */
     body {
         margin: 0;
@@ -83,11 +130,8 @@
         overflow: hidden;
         font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif;
         -webkit-font-smoothing: antialiased;
+        background-color: var(--main-background-color);
         /* font-family: "Helvetica", sans-serif; */
-    }
-    :root {
-        --main-background-color: hsl(0deg 0% 15%);
-        --main-text-color: white;
     }
     .object-wrapper {
         width: 950px;
@@ -231,13 +275,16 @@
         position: sticky;
         top: 0;
         /* color: var(--main-text-color); */
-        color: black;
-        background-color: white;
+        color: var(--main-background-color);
+        background-color: var(--main-text-color);
         display: flex;
         justify-content: space-evenly;
         font-size: 21px;
         padding: 4px;
         opacity: 0.9;
+    }
+    .nav-item {
+        cursor: pointer;
     }
     .hello {
         text-align: center;
@@ -245,6 +292,6 @@
         font-size: 55px;
     }
     .white-link {
-        color: white;
+        color: var(--main-text-color);
     }
 </style>

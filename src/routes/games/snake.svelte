@@ -235,19 +235,19 @@
     }
     .row {
         display: flex;
-        height: 40px;
+        height: min(3vh, 40px);
     }
     .col {
         color: var(--main-background-color);
         background-color: var(--main-text-color);
         margin: 2px;
-        width: 40px;
+        width: min(3.5vw, 40px);
     }
     .active {
-        background-color: yellow;
+        background-color: cornflowerblue;
     }
     .food {
-        background-color: red;
+        background-color: goldenrod;
     }
     .game-container {
         width: 90vw;

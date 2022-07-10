@@ -134,6 +134,33 @@
             }
         };
     });
+    const onButtonPush = (direction) => {
+        if (direction == 'UP') {
+            if (increment !== 100) {
+                increment = -100;
+                const keepPlaying = gameLoopFn();
+                if (keepPlaying) restartInterval();
+            }
+        } else if (direction == 'LEFT') {
+            if (increment !== 1) {
+                increment = -1;
+                const keepPlaying = gameLoopFn();
+                if (keepPlaying) restartInterval();
+            }
+        } else if (direction == 'RIGHT') {
+            if (increment !== -1) {
+                increment = 1;
+                const keepPlaying = gameLoopFn();
+                if (keepPlaying) restartInterval();
+            }
+        } else if (direction == 'DOWN') {
+            if (increment !== -100) {
+                increment = 100;
+                const keepPlaying = gameLoopFn();
+                if (keepPlaying) restartInterval();
+            }
+        }
+    }
 </script>
 
 <div class="main-container">
@@ -157,10 +184,43 @@
                 {/each}
             </div>
         {/each}
+        <div class="controls">
+            <div></div>
+            <div></div>
+            <div class="control-button" on:click={() => onButtonPush('UP')}>UP</div>
+            <div></div>
+            <div></div>
+
+            <div></div>
+            <div class="control-button" on:click={() => onButtonPush('LEFT')}>LEFT</div>
+            <div></div>
+            <div class="control-button" on:click={() => onButtonPush('RIGHT')}>RIGHT</div>
+            <div></div>
+
+            <div></div>
+            <div></div>
+            <div class="control-button" on:click={() => onButtonPush('DOWN')}>DOWN</div>
+            <div></div>
+            <div></div>
+        </div>
     </div>
 </div>
 
 <style>
+    .control-button {
+        height: 40px;
+        background-color: lightgoldenrodyellow;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .controls {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: 20% 20% 20% 20% 20%;
+        width: 100%;
+        /* height: 40px; */
+    }
     .new-game {
         color: var(--main-background-color);
         background-color: var(--main-text-color);

@@ -17,6 +17,11 @@
     let timers = [];
     let gameOver = false;
 
+    let initialClientX = 0;
+    let initialClientY = 0;
+    let finalClientX = 0;
+    let finalClientY = 0;
+
     const generateFood = () => {
         const newFoodPosition =
             rows[Math.floor(Math.random() * 20)] +
@@ -161,9 +166,47 @@
             }
         }
     }
+    const handleTouchstart = (e) => {
+        initialClientX = e.changedTouches[0].screenX;
+        initialClientY = e.changedTouches[0].screenY;
+    }
+    const handleTouchmove = (e) => {
+        finalClientX = e.changedTouches[0].screenX;
+        finalClientY = e.changedTouches[0].screenY;
+    };
+    const handleTouchend = () => {
+        if (
+            finalClientX < initialClientX &&
+            Math.abs(finalClientY - initialClientY) < 50
+        ) {
+            onButtonPush('LEFT');
+        } else if (
+            finalClientX > initialClientX &&
+            Math.abs(finalClientY - initialClientY) < 50
+        ) {
+            onButtonPush('RIGHT');
+        } else if (
+            finalClientY < initialClientY &&
+            Math.abs(finalClientX - initialClientX) < 50
+        ) {
+            onButtonPush('UP');
+        } else if (
+            finalClientY > initialClientY &&
+            Math.abs(finalClientX - initialClientX) < 50
+        ) {
+            onButtonPush('DOWN');
+        }
+        initialClientX = 0;
+        initialClientY = 0;
+    };
 </script>
 
-<div class="main-container">
+<div
+    class="main-container"
+    on:touchstart={handleTouchstart}
+    on:touchmove={handleTouchmove}
+    on:touchend={handleTouchend}
+>
     <div class="game-container">
         {#if gameOver}
             <div class="game-over">
@@ -184,7 +227,7 @@
                 {/each}
             </div>
         {/each}
-        <div class="controls">
+        <!-- <div class="controls">
             <div></div>
             <div></div>
             <div class="control-button" on:click={() => onButtonPush('UP')}>UP</div>
@@ -202,7 +245,7 @@
             <div class="control-button" on:click={() => onButtonPush('DOWN')}>DOWN</div>
             <div></div>
             <div></div>
-        </div>
+        </div> -->
     </div>
 </div>
 

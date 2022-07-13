@@ -186,22 +186,22 @@
     const handleTouchend = () => {
         if (
             finalClientX < initialClientX &&
-            Math.abs(finalClientY - initialClientY) < 50
+            Math.abs(finalClientY - initialClientY) < 150
         ) {
             onButtonPush('LEFT');
         } else if (
             finalClientX > initialClientX &&
-            Math.abs(finalClientY - initialClientY) < 50
+            Math.abs(finalClientY - initialClientY) < 150
         ) {
             onButtonPush('RIGHT');
         } else if (
             finalClientY < initialClientY &&
-            Math.abs(finalClientX - initialClientX) < 50
+            Math.abs(finalClientX - initialClientX) < 150
         ) {
             onButtonPush('UP');
         } else if (
             finalClientY > initialClientY &&
-            Math.abs(finalClientX - initialClientX) < 50
+            Math.abs(finalClientX - initialClientX) < 150
         ) {
             onButtonPush('DOWN');
         }

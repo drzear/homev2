@@ -210,6 +210,43 @@
     };
 </script>
 
+{#if gameStart || gameOver}
+    <div class="game-start">
+        <div style="text-align: center;">
+            {#if !gameOver}
+                Welcome to Snake!
+            {/if}
+            {#if gameOver}
+                Game Over. Number eaten: {numberEaten}
+            {/if}
+        </div>
+        <div style="font-size: 18px;">
+            <label>
+                <input type=checkbox bind:checked={buttonControls}>
+                Show Button controls
+            </label>
+        </div>
+        <div style="font-size: 18px;">
+            <button on:click={() => numberFood ++}>/\</button>
+            <button on:click={() => numberFood --}>\/</button>
+            <label>
+                <input type=number bind:value={numberFood} min=1 max=50>
+                Number of Food on Field
+            </label>
+        </div>
+        <div style="font-size: 18px;">
+            <label>
+                <input type=checkbox bind:checked={fastMode}>
+                Start in Fast Mode
+            </label>
+        </div>
+        <div>
+            <button class="new-game" on:click={startNewGame}>
+                {gameOver ? 'Play Again' : 'Start'}
+            </button>
+        </div>
+    </div>
+{/if}
 <div
     class="main-container"
     on:touchstart={handleTouchstart}
@@ -217,49 +254,6 @@
     on:touchend={handleTouchend}
 >
     <div class="game-container">
-        {#if gameStart || gameOver}
-            <div class="game-start">
-                {#if !gameOver}
-                    Welcome to Snake!
-                {/if}
-                {#if gameOver}
-                    Game Over. Number eaten: {numberEaten}
-                {/if}
-                <div style="font-size: 18px;">
-                    <label>
-                        <input type=checkbox bind:checked={buttonControls}>
-                        Show Button controls
-                    </label>
-                </div>
-                <div style="font-size: 18px;">
-                    <button on:click={() => numberFood ++}>/\</button>
-                    <button on:click={() => numberFood --}>\/</button>
-                    <label>
-                        <input type=number bind:value={numberFood} min=1 max=50>
-                        Number of Food on Field
-                    </label>
-                </div>
-                <div style="font-size: 18px;">
-                    <label>
-                        <input type=checkbox bind:checked={fastMode}>
-                        Start in Fast Mode
-                    </label>
-                </div>
-                <div>
-                    <button class="new-game" on:click={startNewGame}>
-                        {gameOver ? 'Play Again' : 'Start'}
-                    </button>
-                </div>
-            </div>
-        {/if}
-        <!-- {#if gameOver}
-            <div class="game-over">
-                
-                <button class="new-game" on:click={startNewGame}>
-                    play again?
-                </button>
-            </div>
-        {/if} -->
         {#each rows as row}
             <div id="row" class="row">
                 {#each cols as col}
@@ -324,7 +318,7 @@
         width: 100vw;
         background-color: var(--main-text-color);
         opacity: 0.95;
-        font-size: 100px;
+        font-size: 80px;
         display: flex;
         flex-direction: column;
         align-items: center;

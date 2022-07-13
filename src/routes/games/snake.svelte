@@ -30,8 +30,8 @@
 
     const generateFood = () => {
         const newFoodPosition =
-            rows[Math.floor(Math.random() * 20)] +
-            cols[Math.floor(Math.random() * 20)];
+            rows[Math.floor(Math.random() * 21)] +
+            cols[Math.floor(Math.random() * 21)];
         if (
             !foodPositions.includes(newFoodPosition) &&
             !activePositions.includes(newFoodPosition)
@@ -79,7 +79,11 @@
             );
             numberEaten += 1;
             fillFoodArray();
-            timerDelay -= 10;
+            if (timerDelay < 200) {
+                // max speed
+            } else {
+                timerDelay -=10;
+            }
         }
         activePositions = activePositions;
         const currentRow = Math.floor(activePositions[0] / 100);
@@ -113,7 +117,7 @@
     };
     onMount(() => {
         document.onkeydown = function (event) {
-            if (!gameOver) {
+            if (!gameOver && !gameStart) {
                 let char =
                     typeof event !== "undefined" ? event.keyCode : event.which;
                 if (char === 38) {
@@ -184,29 +188,31 @@
         finalClientY = e.changedTouches[0].screenY;
     };
     const handleTouchend = () => {
-        if (
-            finalClientX < initialClientX &&
-            Math.abs(finalClientY - initialClientY) < 75
-        ) {
-            onButtonPush('LEFT');
-        } else if (
-            finalClientX > initialClientX &&
-            Math.abs(finalClientY - initialClientY) < 75
-        ) {
-            onButtonPush('RIGHT');
-        } else if (
-            finalClientY < initialClientY &&
-            Math.abs(finalClientX - initialClientX) < 75
-        ) {
-            onButtonPush('UP');
-        } else if (
-            finalClientY > initialClientY &&
-            Math.abs(finalClientX - initialClientX) < 75
-        ) {
-            onButtonPush('DOWN');
+        if (!buttonControls) {
+            if (
+                finalClientX < initialClientX &&
+                Math.abs(finalClientY - initialClientY) < 75
+            ) {
+                onButtonPush('LEFT');
+            } else if (
+                finalClientX > initialClientX &&
+                Math.abs(finalClientY - initialClientY) < 75
+            ) {
+                onButtonPush('RIGHT');
+            } else if (
+                finalClientY < initialClientY &&
+                Math.abs(finalClientX - initialClientX) < 75
+            ) {
+                onButtonPush('UP');
+            } else if (
+                finalClientY > initialClientY &&
+                Math.abs(finalClientX - initialClientX) < 75
+            ) {
+                onButtonPush('DOWN');
+            }
+            initialClientX = 0;
+            initialClientY = 0;
         }
-        initialClientX = 0;
-        initialClientY = 0;
     };
 </script>
 
@@ -231,13 +237,13 @@
             <button on:click={() => numberFood --}>\/</button>
             <label>
                 <input type=number bind:value={numberFood} min=1 max=50>
-                Number of Food on Field
+                Number of food on field
             </label>
         </div>
         <div style="font-size: 18px;">
             <label>
                 <input type=checkbox bind:checked={fastMode}>
-                Start in Fast Mode
+                Start at max speed
             </label>
         </div>
         <div>
@@ -258,10 +264,15 @@
         {#each rows as row}
             <div id="row" class="row">
                 {#each cols as col}
-                    <div
+                    <!-- <div
                         class:active={activePositions.includes(row + col)}
                         class:food={foodPositions.includes(row + col)}
                         class="col"
+                    /> -->
+                    <div
+                        class:food={foodPositions.includes(row + col)}
+                        class="col"
+                        style:background-color={activePositions.includes(row + col) ? `hsl(219, 79%, ${activePositions.indexOf(row + col) / activePositions.length * 90}%)` : ''}
                     />
                 {/each}
             </div>
@@ -331,11 +342,11 @@
     .col {
         color: var(--main-background-color);
         background-color: var(--main-text-color);
-        margin: 2px;
+        /* margin: 1px; */
         width: min(3.5vw, 40px);
     }
     .active {
-        background-color: cornflowerblue;
+        background-color: hsl(219, 79%, 66%);
     }
     .food {
         background-color: goldenrod;

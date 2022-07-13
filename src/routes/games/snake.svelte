@@ -337,13 +337,13 @@
     }
     .row {
         display: flex;
-        height: min(3vh, 40px);
+        height: min(min(4.5vw, 4.5vh), 40px);
     }
     .col {
         color: var(--main-background-color);
         background-color: var(--main-text-color);
         /* margin: 1px; */
-        width: min(3.5vw, 40px);
+        width: min(min(4.5vw, 4.5vh), 40px);
     }
     .active {
         background-color: hsl(219, 79%, 66%);
@@ -352,12 +352,12 @@
         background-color: goldenrod;
     }
     .game-container {
-        width: 90vw;
+        width: 98vw;
         height: 97vh;
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-left: 5vw;
+        margin-left: 1vw;
         background-color: var(--main-background-color);
     }
     .main-container {

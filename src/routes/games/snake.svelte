@@ -22,6 +22,12 @@
     let finalClientX = 0;
     let finalClientY = 0;
 
+    let buttonControls = false;
+    let gameStart = true;
+    let numberFood = 5;
+    let fastMode = false;
+    let numberEaten = 0;
+
     const generateFood = () => {
         const newFoodPosition =
             rows[Math.floor(Math.random() * 20)] +
@@ -34,7 +40,7 @@
         }
     };
     const fillFoodArray = () => {
-        while (foodPositions.length < 6) {
+        while (foodPositions.length < numberFood) {
             const newFood = generateFood();
             if (newFood) foodPositions.push(newFood);
         }
@@ -45,11 +51,13 @@
         initialPosition = 1009;
         activePositions = [initialPosition];
         increment = 1;
-        timerDelay = 500;
+        timerDelay = fastMode ? 200 : 500;
         gameOver = false;
+        gameStart = false;
         foodPositions = [];
         fillFoodArray();
         startGame();
+        numberEaten = 0;
     };
 
     const gameLoopFn = () => {
@@ -69,6 +77,7 @@
             foodPositions = foodPositions.filter(
                 (food) => food !== nextPosition
             );
+            numberEaten += 1;
             fillFoodArray();
             timerDelay -= 10;
         }
@@ -94,9 +103,9 @@
         timers.push(gameLoop);
     };
 
-    startNewGame();
+    // startNewGame();
 
-    const restartInterval = (inc) => {
+    const restartInterval = () => {
         clearInterval(timers[0]);
         timers = [];
         const gameLoop = setInterval(gameLoopFn, timerDelay);
@@ -208,14 +217,49 @@
     on:touchend={handleTouchend}
 >
     <div class="game-container">
-        {#if gameOver}
+        {#if gameStart || gameOver}
+            <div class="game-start">
+                {#if !gameOver}
+                    Welcome to Snake!
+                {/if}
+                {#if gameOver}
+                    Game Over. Number eaten: {numberEaten}
+                {/if}
+                <div style="font-size: 18px;">
+                    <label>
+                        <input type=checkbox bind:checked={buttonControls}>
+                        Show Button controls
+                    </label>
+                </div>
+                <div style="font-size: 18px;">
+                    <button on:click={() => numberFood ++}>/\</button>
+                    <button on:click={() => numberFood --}>\/</button>
+                    <label>
+                        <input type=number bind:value={numberFood} min=1 max=50>
+                        Number of Food on Field
+                    </label>
+                </div>
+                <div style="font-size: 18px;">
+                    <label>
+                        <input type=checkbox bind:checked={fastMode}>
+                        Start in Fast Mode
+                    </label>
+                </div>
+                <div>
+                    <button class="new-game" on:click={startNewGame}>
+                        {gameOver ? 'Play Again' : 'Start'}
+                    </button>
+                </div>
+            </div>
+        {/if}
+        <!-- {#if gameOver}
             <div class="game-over">
-                Game Over =/
+                
                 <button class="new-game" on:click={startNewGame}>
                     play again?
                 </button>
             </div>
-        {/if}
+        {/if} -->
         {#each rows as row}
             <div id="row" class="row">
                 {#each cols as col}
@@ -227,25 +271,27 @@
                 {/each}
             </div>
         {/each}
-        <!-- <div class="controls">
-            <div></div>
-            <div></div>
-            <div class="control-button" on:click={() => onButtonPush('UP')}>UP</div>
-            <div></div>
-            <div></div>
+        {#if buttonControls}
+            <div class="controls">
+                <div></div>
+                <div></div>
+                <div class="control-button" on:click={() => onButtonPush('UP')}>UP</div>
+                <div></div>
+                <div></div>
 
-            <div></div>
-            <div class="control-button" on:click={() => onButtonPush('LEFT')}>LEFT</div>
-            <div></div>
-            <div class="control-button" on:click={() => onButtonPush('RIGHT')}>RIGHT</div>
-            <div></div>
+                <div></div>
+                <div class="control-button" on:click={() => onButtonPush('LEFT')}>LEFT</div>
+                <div></div>
+                <div class="control-button" on:click={() => onButtonPush('RIGHT')}>RIGHT</div>
+                <div></div>
 
-            <div></div>
-            <div></div>
-            <div class="control-button" on:click={() => onButtonPush('DOWN')}>DOWN</div>
-            <div></div>
-            <div></div>
-        </div> -->
+                <div></div>
+                <div></div>
+                <div class="control-button" on:click={() => onButtonPush('DOWN')}>DOWN</div>
+                <div></div>
+                <div></div>
+            </div>
+        {/if}
     </div>
 </div>
 
@@ -265,16 +311,23 @@
         /* height: 40px; */
     }
     .new-game {
-        color: var(--main-background-color);
-        background-color: var(--main-text-color);
+        background-color: var(--main-background-color);
+        color: var(--main-text-color);
+        height: 70px;
+        width: 200px;
+        font-weight: bold;
+        font-size: 18px;
     }
-    .game-over {
+    .game-start {
         position: absolute;
         height: 100vh;
-        width: 90vw;
+        width: 100vw;
         background-color: var(--main-text-color);
-        opacity: 0.8;
+        opacity: 0.95;
         font-size: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     .row {
         display: flex;

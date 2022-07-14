@@ -28,6 +28,8 @@
     let fastMode = false;
     let numberEaten = 0;
 
+    let gamePaused = false;
+
     const generateFood = () => {
         const newFoodPosition =
             rows[Math.floor(Math.random() * 21)] +
@@ -206,6 +208,16 @@
             initialClientY = 0;
         }
     };
+    const pauseGame = () => {
+        clearInterval(timers[0]);
+        timers = [];
+        gamePaused = true;
+    }
+    const resumeGame = () => {
+        gamePaused = false;
+        const gameLoop = setInterval(gameLoopFn, timerDelay);
+        timers.push(gameLoop);
+    }
 </script>
 
 {#if gameStart || gameOver}
@@ -245,13 +257,25 @@
         </div>
     </div>
 {/if}
+{#if gamePaused}
+    <div class="game-start">
+        <div style="text-align: center; font-size: 50px;">
+            Paused! Number eaten so far: {numberEaten}
+        </div>
+        <div>
+            <button class="new-game" on:click={resumeGame}>
+                Resume
+            </button>
+        </div>
+    </div>
+{/if}
 <div
     class="main-container"
     on:touchstart={handleTouchstart}
     on:touchmove={handleTouchmove}
     on:touchend={handleTouchend}
 >
-    <div style="width: 100%; text-align: center; color: white;">Number Eaten: {numberEaten}</div>
+    <div style="width: 100%; text-align: center; color: white;">Number Eaten: {numberEaten} <button on:click={pauseGame} class='pause-button'>Pause</button></div>
     <div class="game-container">
         {#each rows as row}
             <div id="row" class="row">
@@ -294,6 +318,11 @@
 </div>
 
 <style>
+    .pause-button {
+        margin-left: 10px;
+        background-color: var(--main-text-color);
+        color: var(--main-background-color);
+    }
     .control-button {
         height: 40px;
         background-color: lightgoldenrodyellow;

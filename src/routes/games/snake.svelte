@@ -188,27 +188,19 @@
         finalClientY = e.changedTouches[0].screenY;
     };
     const handleTouchend = () => {
+        const diffX = finalClientX - initialClientX;
+        const diffY = finalClientY - initialClientY;
         if (!buttonControls) {
-            if (
-                finalClientX < initialClientX &&
-                Math.abs(finalClientY - initialClientY) < 75
-            ) {
-                onButtonPush('LEFT');
-            } else if (
-                finalClientX > initialClientX &&
-                Math.abs(finalClientY - initialClientY) < 75
-            ) {
+            if (diffX > 0 && Math.abs(diffX) > Math.abs(diffY)) {
                 onButtonPush('RIGHT');
-            } else if (
-                finalClientY < initialClientY &&
-                Math.abs(finalClientX - initialClientX) < 75
-            ) {
-                onButtonPush('UP');
-            } else if (
-                finalClientY > initialClientY &&
-                Math.abs(finalClientX - initialClientX) < 75
-            ) {
+            } else if (diffX < 0 && Math.abs(diffX) > Math.abs(diffY)) {
+                onButtonPush('LEFT');
+            } else if (diffY > 0 && Math.abs(diffY) > Math.abs(diffX)) {
                 onButtonPush('DOWN');
+            } else if (diffY < 0 && Math.abs(diffY) > Math.abs(diffX)) {
+                onButtonPush('UP');
+            } else {
+                console.log({'initX': initialClientX, 'finalX': finalClientX, 'initY': initialClientY, 'finalY': finalClientY});
             }
             initialClientX = 0;
             initialClientY = 0;

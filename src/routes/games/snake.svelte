@@ -27,6 +27,7 @@
     let numberFood = 5;
     let fastMode = false;
     let continuousFood = true;
+    let wrapScreen = false;
     let numberEaten = 0;
 
     let gamePaused = false;
@@ -65,7 +66,20 @@
 
     const gameLoopFn = () => {
         const lastPosition = activePositions[0];
-        const nextPosition = lastPosition + increment;
+        let nextPosition = lastPosition + increment;
+        if (wrapScreen) {
+            const nextRow = Math.floor(nextPosition / 100);
+            const nextCol = +nextPosition.toString().slice(-2);
+            if (nextRow < 0) {
+                nextPosition = lastPosition + 2000;
+            } else if (nextRow > 20) {
+                nextPosition = lastPosition - 2000;
+            } else if (nextCol == 99) {
+                nextPosition = lastPosition + 20;
+            } else if (nextCol > 20) {
+                nextPosition = lastPosition - 20;
+            }
+        }
         let keepPlaying = true;
         if (activePositions.includes(nextPosition)) {
             clearInterval(timers[0]);
@@ -257,6 +271,12 @@
                 Continuously replenish food
             </label>
         </div>
+        <div style="font-size: 18px;">
+            <label>
+                <input type=checkbox bind:checked={wrapScreen}>
+                Wrap around screen
+            </label>
+        </div>
         <div>
             <button class="new-game" on:click={startNewGame}>
                 {gameOver ? 'Play Again' : 'Start'}
@@ -372,9 +392,6 @@
         background-color: var(--main-text-color);
         /* margin: 1px; */
         width: min(min(4.5vw, 4.5vh), 40px);
-    }
-    .active {
-        background-color: hsl(219, 79%, 66%);
     }
     .food {
         background-color: goldenrod;

@@ -70,12 +70,12 @@
         if (wrapScreen) {
             const nextRow = Math.floor(nextPosition / 100);
             const nextCol = +nextPosition.toString().slice(-2);
-            if (nextRow < 0) {
+            if (nextCol == 99 || nextCol == -1) {
+                nextPosition = lastPosition + 20;
+            } else if (nextRow < 0) {
                 nextPosition = lastPosition + 2000;
             } else if (nextRow > 20) {
                 nextPosition = lastPosition - 2000;
-            } else if (nextCol == 99) {
-                nextPosition = lastPosition + 20;
             } else if (nextCol > 20) {
                 nextPosition = lastPosition - 20;
             }

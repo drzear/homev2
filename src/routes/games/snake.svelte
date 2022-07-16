@@ -26,6 +26,7 @@
     let gameStart = true;
     let numberFood = 5;
     let fastMode = false;
+    let continuousFood = true;
     let numberEaten = 0;
 
     let gamePaused = false;
@@ -42,7 +43,7 @@
         }
     };
     const fillFoodArray = () => {
-        while (foodPositions.length < numberFood) {
+        while (foodPositions.length < numberFood && rows.length * cols.length >= foodPositions.length + activePositions.length + 2) {
             const newFood = generateFood();
             if (newFood) foodPositions.push(newFood);
         }
@@ -80,7 +81,7 @@
                 (food) => food !== nextPosition
             );
             numberEaten += 1;
-            fillFoodArray();
+            if (continuousFood || foodPositions.length == 0) fillFoodArray();
             if (timerDelay < 200) {
                 // max speed
             } else {
@@ -240,7 +241,7 @@
             <button on:click={() => numberFood ++}>/\</button>
             <button on:click={() => numberFood --}>\/</button>
             <label>
-                <input type=number bind:value={numberFood} min=1 max=50>
+                <input type=number bind:value={numberFood} min=1 max=350 style="width: 80px;">
                 Number of food on field
             </label>
         </div>
@@ -248,6 +249,12 @@
             <label>
                 <input type=checkbox bind:checked={fastMode}>
                 Start at max speed
+            </label>
+        </div>
+        <div style="font-size: 18px;">
+            <label>
+                <input type=checkbox bind:checked={continuousFood}>
+                Continuously replenish food
             </label>
         </div>
         <div>

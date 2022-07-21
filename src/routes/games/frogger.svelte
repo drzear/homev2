@@ -706,7 +706,7 @@
     .game-row {
         padding-top: 15px;
         padding-bottom: 15px;
-        height: min(min(10.5vw, 7.5vh), 80px);
+        height: min(min(9.5vw, 5.5vh), 80px);
         display: flex;
         align-items: center;
     }

@@ -104,6 +104,7 @@
 <style>
     #games {
         padding-top: 20px;
+        padding-bottom: 50px;
     }
     .connect {
         padding-top: 10px;
@@ -274,6 +275,7 @@
         /* width: clamp(100px, 90vw, 750px); */
         padding: 2vw;
         font-size: 17px;
+        background-color: var(--main-background-color);
     }
     .navigation {
         margin-top: -20px;

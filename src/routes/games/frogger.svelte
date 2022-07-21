@@ -33,7 +33,7 @@
     let finalClientX = 0;
     let finalClientY = 0;
 
-    let buttonControls = true;
+    let buttonControls = false;
     let gameStart = true; // switch to true
     let numberFood = 5;
     let fastMode = false;
@@ -207,26 +207,28 @@
         return keepPlaying;
     };
 
-    const startGame = () => {
+    const startAllIntervals = () => {
         // street
-        const gameLoop0 = setInterval(() => gameLoopStreetFn('street0'), 100);
-        const gameLoop1 = setInterval(() => gameLoopStreetFn('street1', true), 500);
+        const gameLoop0 = setInterval(() => gameLoopStreetFn('street0'), 150);
+        const gameLoop1 = setInterval(() => gameLoopStreetFn('street1', true), 400);
         const gameLoop2 = setInterval(() => gameLoopStreetFn('street2'), 200);
         const gameLoop3 = setInterval(() => gameLoopStreetFn('street3', true), 700);
         // river
-        const gameLoop4 = setInterval(() => gameLoopRiverFn('river0', true), 100);
-        const gameLoop5 = setInterval(() => gameLoopRiverFn('river1'), 500);
+        const gameLoop4 = setInterval(() => gameLoopRiverFn('river0', true), 150);
+        const gameLoop5 = setInterval(() => gameLoopRiverFn('river1'), 300);
         const gameLoop6 = setInterval(() => gameLoopRiverFn('river2', true), 200);
         const gameLoop7 = setInterval(() => gameLoopRiverFn('river3'), 700);
         timers.push(gameLoop0, gameLoop1, gameLoop2, gameLoop3, gameLoop4, gameLoop5, gameLoop6, gameLoop7);
     };
-
-    const restartInterval = () => {
+    const clearAllIntervals = () => {
         timers.forEach(interval => {
             clearInterval(interval);
         });
         timers = [];
-        startGame();
+    }
+    const restartInterval = () => {
+        clearAllIntervals();
+        startAllIntervals();
     };
     onMount(() => {
         document.onkeydown = function (event) {
@@ -349,6 +351,7 @@
                     activePositions = [['safe1', 2]];
                     if (finishedPositions.length == 4) {
                         gameOver = true;
+                        clearAllIntervals();
                         gameWon = true;
                     }
                 }
@@ -364,6 +367,7 @@
             const gameOverBool = handleCollision();
             if (gameOverBool) {
                 gameOver = true;
+                clearAllIntervals();
             } else {
                 activePositions = [['safe1', 2]];
             }
@@ -426,7 +430,7 @@
             {:else if gameWon}
                 You win!
             {:else}
-                Game Over. Number eaten: {numberEaten}
+                Game Over.
             {/if}
         </div>
         <div style="font-size: 18px;">
@@ -465,7 +469,13 @@
 {#if gamePaused}
     <div class="game-start">
         <div style="text-align: center; font-size: 50px;">
-            Paused! Number eaten so far: {numberEaten}
+            Paused!
+        </div>
+        <div style="font-size: 18px;">
+            <label>
+                <input type=checkbox bind:checked={buttonControls}>
+                Use Button controls
+            </label>
         </div>
         <div>
             <button class="new-game" on:click={resumeGame}>
@@ -496,12 +506,12 @@
                     class:lilypad={lilypadPositions.findIndex(el => el == col) != -1}
                     class="game-col"
                 >
-                    {#if activePositions.findIndex(el => el[0] == 'finish' && el[1] == col) == 0}
-                        <div class="active" />
-                    {:else if finishedPositions.findIndex(el => el[0] == 'finish' && el[1] == col) != -1}
-                        <div class="active"></div>
+                    {#if finishedPositions.findIndex(el => el[0] == 'finish' && el[1] == col - 1) != -1  && lilypadPositions.findIndex(el => el == col) != -1}
+                        <div class="active frog-right" />
+                    {:else if finishedPositions.findIndex(el => el[0] == 'finish' && el[1] == col ) != -1  && lilypadPositions.findIndex(el => el == col + 1) == -1}
+                        <div class="active frog-right" />
                     {:else if deaths.findIndex(el => el[0] == 'finish' && el[1] == col) != -1}
-                        <div class="dead"></div>
+                        <div class="dead">X</div>
                     {/if}
                 </div>
             {/each}
@@ -516,7 +526,7 @@
                         {#if activePositions.findIndex(el => el[0] == 'river0' && el[1] == col) == 0}
                             <div class="active" />
                         {:else if deaths.findIndex(el => el[0] == 'river0' && el[1] == col) != -1}
-                            <div class="dead"></div>
+                            <div class="dead">X</div>
                         {/if}
                     </div>
                 {/each}
@@ -530,7 +540,7 @@
                         {#if activePositions.findIndex(el => el[0] == 'river1' && el[1] == col) == 0}
                             <div class="active" />
                         {:else if deaths.findIndex(el => el[0] == 'river1' && el[1] == col) != -1}
-                            <div class="dead"></div>
+                            <div class="dead">X</div>
                         {/if}
                     </div>
                 {/each}
@@ -544,7 +554,7 @@
                         {#if activePositions.findIndex(el => el[0] == 'river2' && el[1] == col) == 0}
                             <div class="active" />
                         {:else if deaths.findIndex(el => el[0] == 'river2' && el[1] == col) != -1}
-                            <div class="dead"></div>
+                            <div class="dead">X</div>
                         {/if}
                     </div>
                 {/each}
@@ -558,7 +568,7 @@
                         {#if activePositions.findIndex(el => el[0] == 'river3' && el[1] == col) == 0}
                             <div class="active" />
                         {:else if deaths.findIndex(el => el[0] == 'river3' && el[1] == col) != -1}
-                            <div class="dead"></div>
+                            <div class="dead">X</div>
                         {/if}
                     </div>
                 {/each}
@@ -570,7 +580,7 @@
                     {#if activePositions.findIndex(el => el[0] == 'safe0' && el[1] == col) == 0}
                         <div class="active" />
                     {:else if deaths.findIndex(el => el[0] == 'safe0' && el[1] == col) != -1}
-                        <div class="dead"></div>
+                        <div class="dead">X</div>
                     {/if}
                 </div>
             {/each}
@@ -579,13 +589,13 @@
             <div class="game-row street-row street-row-top">
                 {#each cols as col}
                     <div
-                        class:vehicle={vehiclePositions.findIndex(el => el[0] == 'street0' && el[1] == col) != -1}
+                        class:vehicle-right={vehiclePositions.findIndex(el => el[0] == 'street0' && el[1] == col) != -1}
                         class="game-col"
                     >
                         {#if activePositions.findIndex(el => el[0] == 'street0' && el[1] == col) == 0}
                             <div class="active" />
                         {:else if deaths.findIndex(el => el[0] == 'street0' && el[1] == col) != -1}
-                            <div class="dead"></div>
+                            <div class="dead">X</div>
                         {/if}
                     </div>
                 {/each}
@@ -593,13 +603,13 @@
             <div class="game-row street-row">
                 {#each cols as col}
                     <div
-                        class:vehicle={vehiclePositions.findIndex(el => el[0] == 'street1' && el[1] == col) != -1}
+                        class:vehicle-left={vehiclePositions.findIndex(el => el[0] == 'street1' && el[1] == col) != -1}
                         class="game-col"
                     >
                         {#if activePositions.findIndex(el => el[0] == 'street1' && el[1] == col) == 0}
                             <div class="active" />
                         {:else if deaths.findIndex(el => el[0] == 'street1' && el[1] == col) != -1}
-                            <div class="dead"></div>
+                            <div class="dead">X</div>
                         {/if}
                     </div>
                 {/each}
@@ -607,13 +617,13 @@
             <div class="game-row street-row">
                 {#each cols as col}
                     <div
-                        class:vehicle={vehiclePositions.findIndex(el => el[0] == 'street2' && el[1] == col) != -1}
+                        class:vehicle-right={vehiclePositions.findIndex(el => el[0] == 'street2' && el[1] == col) != -1}
                         class="game-col"
                     >
                         {#if activePositions.findIndex(el => el[0] == 'street2' && el[1] == col) == 0}
                             <div class="active" />
                         {:else if deaths.findIndex(el => el[0] == 'street2' && el[1] == col) != -1}
-                            <div class="dead"></div>
+                            <div class="dead">X</div>
                         {/if}
                     </div>
                 {/each}
@@ -621,13 +631,13 @@
             <div class="game-row street-row">
                 {#each cols as col}
                     <div
-                        class:vehicle={vehiclePositions.findIndex(el => el[0] == 'street3' && el[1] == col) != -1}
+                        class:vehicle-left={vehiclePositions.findIndex(el => el[0] == 'street3' && el[1] == col) != -1}
                         class="game-col"
                     >
                         {#if activePositions.findIndex(el => el[0] == 'street3' && el[1] == col) == 0}
                             <div class="active"/>
                         {:else if deaths.findIndex(el => el[0] == 'street3' && el[1] == col) != -1}
-                            <div class="dead"></div>
+                            <div class="dead">X</div>
                         {/if}
                     </div>
                 {/each}
@@ -639,7 +649,7 @@
                     {#if activePositions.findIndex(el => el[0] == 'safe1' && el[1] == col) == 0}
                         <div class="active" />
                     {:else if deaths.findIndex(el => el[0] == 'safe1' && el[1] == col) != -1}
-                        <div class="dead"></div>
+                        <div class="dead">X</div>
                     {/if}
             </div>
             {/each}
@@ -678,7 +688,10 @@
     }
     .lilypad {
         height: min(min(8.5vw, 8.5vh), 50px);
-        background-color: darkseagreen;
+        background-image: url("/static/lilypad.svg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
     }
     #river {
         background-color: lightblue;
@@ -757,28 +770,54 @@
     }
     .lives {
         height: min(min(5.5vw, 5.5vh), 30px);
-        border-radius: 50%;
-        background-color: darkgreen;
+        margin-left: 10px;
+        background-image: url("/static/frog.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
     }
     .active {
         width: 100%;
         height: min(min(5.5vw, 5.5vh), 30px);
-        border-radius: 50%;
-        background-color: darkgreen;
+        background-image: url("/static/frog.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    .frog-left {
+        margin-right: -50px;
+    }
+    .frog-right {
+        margin-left: calc(-1 * min(min(5vw, 5vh), 40px) / 2);
     }
     .dead {
         width: 100%;
         height: min(min(5.5vw, 5.5vh), 30px);
-        border-radius: 50%;
-        background-color: red;
+        color: red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
-    .vehicle {
+    .vehicle-right {
         height: min(min(7.5vw, 7.5vh), 50px);
-        background-color: black;
+        background-image: url("/static/car-right.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+    }
+    .vehicle-left {
+        height: min(min(7.5vw, 7.5vh), 50px);
+        background-image: url("/static/car-left.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
     }
     .log {
         height: min(min(5.5vw, 5.5vh), 30px);
-        background-color: #a5512a;
+        background-image: url("/static/wood.png");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
     }
     .game-container {
         width: 98vw;

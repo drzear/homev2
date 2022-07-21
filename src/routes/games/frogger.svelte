@@ -33,7 +33,7 @@
     let finalClientX = 0;
     let finalClientY = 0;
 
-    let buttonControls = false;
+    let buttonControls = true;
     let gameStart = true; // switch to true
     let numberFood = 5;
     let fastMode = false;
@@ -429,13 +429,13 @@
                 Game Over. Number eaten: {numberEaten}
             {/if}
         </div>
-        <!-- <div style="font-size: 18px;">
+        <div style="font-size: 18px;">
             <label>
                 <input type=checkbox bind:checked={buttonControls}>
-                Show Button controls
+                Use Button controls
             </label>
         </div>
-        <div style="font-size: 18px;">
+        <!-- <div style="font-size: 18px;">
             <button on:click={() => numberFood ++}>/\</button>
             <button on:click={() => numberFood --}>\/</button>
             <label>
@@ -648,24 +648,24 @@
 
         </div>
 
-        {#if buttonControls}
+        {#if buttonControls && !(gameStart || gameOver || gamePaused)}
             <div class="controls">
                 <div></div>
                 <div></div>
-                <div class="control-button" on:click={() => onButtonPush('UP')}>UP</div>
                 <div></div>
-                <div></div>
-
-                <div></div>
-                <div class="control-button" on:click={() => onButtonPush('LEFT')}>LEFT</div>
-                <div></div>
-                <div class="control-button" on:click={() => onButtonPush('RIGHT')}>RIGHT</div>
+                <div class="control-button" on:click={() => onButtonPush('UP')}>↑</div>
                 <div></div>
 
                 <div></div>
                 <div></div>
-                <div class="control-button" on:click={() => onButtonPush('DOWN')}>DOWN</div>
+                <div class="control-button" on:click={() => onButtonPush('LEFT')}>←</div>
                 <div></div>
+                <div class="control-button" on:click={() => onButtonPush('RIGHT')}>→</div>
+
+                <div></div>
+                <div></div>
+                <div></div>
+                <div class="control-button" on:click={() => onButtonPush('DOWN')}>↓</div>
                 <div></div>
             </div>
         {/if}
@@ -721,14 +721,17 @@
         color: var(--main-background-color);
     }
     .control-button {
-        height: 40px;
-        background-color: lightgoldenrodyellow;
+        height: 100px;
+        background-color: white;
+        opacity: 0.4;
         display: flex;
         justify-content: center;
         align-items: center;
     }
     .controls {
-        margin-top: 10px;
+        position: absolute;
+        margin-top: 250px;
+        margin-right: 0;
         display: grid;
         grid-template-columns: 20% 20% 20% 20% 20%;
         width: 100%;

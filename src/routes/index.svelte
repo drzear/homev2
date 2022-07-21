@@ -81,9 +81,11 @@
                                 </div>
                             </div>
                         </div>
-
-                        <h1 id="games">games</h1>
-                        <a class="white-link" href="/games/snake">snake</a>
+                        <div id="games">
+                            <h1>games</h1>
+                            <a class="white-link" href="/games/snake">snake</a>
+                            <a class="white-link" href="/games/frogger">frogger</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,6 +102,9 @@
 </body>
 
 <style>
+    #games {
+        padding-top: 20px;
+    }
     .connect {
         padding-top: 10px;
         display: flex;
@@ -208,7 +213,7 @@
         text-align: center;
         clear: both;
         position: absolute;
-        height: 3200px;
+        /* height: 3200px; */
         overflow: visible;
         padding-top: 20px;
         display: flex;
@@ -224,7 +229,7 @@
         overflow-x: hidden;
         overflow-y: auto;
         scroll-behavior: smooth;
-        background: #c7cbb9;
+        /* background: #c7cbb9; */
     }
     #framing-parent {
         position: fixed;

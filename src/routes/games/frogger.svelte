@@ -22,8 +22,6 @@
     const streetOptions = ['street0', 'street1', 'street2', 'street3'];
     const riverOptions = ['river0', 'river1', 'river2', 'river3'];
 
-    let increment;
-    let timerDelay;
     let timers = [];
     let gameOver = false;
     let gameWon = false;
@@ -34,13 +32,12 @@
     let finalClientY = 0;
 
     let buttonControls = false;
-    let gameStart = true; // switch to true
-    let numberFood = 5;
-    let fastMode = false;
-    let continuousFood = true;
-    let numberEaten = 0;
+    let gameStart = true;
 
     let gamePaused = false;
+
+    let timer;
+    let points;
 
     // TODO
     // separate normal and reverse vehicle generation (pass reverse to fn already started)
@@ -162,8 +159,19 @@
         gameWon = false;
         gameStart = false;
         restartInterval();
+        startTimer();
+        points = 1000;
     };
 
+    const startTimer = () => {
+        if (timer) {
+            clearInterval(timer);
+        }
+        timer = setInterval(timerLoop, 500);
+    }
+    const timerLoop = () => {
+        points -= 1;
+    }
     const gameLoopStreetFn = (street, reverse = false) => {
         vehiclePositions.forEach(el => {
             if (el[0] == street) {
@@ -349,8 +357,10 @@
                 } else {
                     finishedPositions = [...finishedPositions, activePositions.map(arr => arr.slice())[0]];
                     activePositions = [['safe1', 2]];
+                    points += 100;
                     if (finishedPositions.length == 4) {
                         gameOver = true;
+                        clearInterval(timer);
                         clearAllIntervals();
                         gameWon = true;
                     }
@@ -367,6 +377,7 @@
             const gameOverBool = handleCollision();
             if (gameOverBool) {
                 gameOver = true;
+                clearInterval(timer);
                 clearAllIntervals();
             } else {
                 activePositions = [['safe1', 2]];
@@ -375,6 +386,7 @@
     }
     const handleCollision = () => {
         lives.pop();
+        points -= 100;
         lives = lives;
         deaths.push(activePositions.map(arr => arr.slice())[0]);
         deaths = deaths;
@@ -428,7 +440,7 @@
             {#if !gameOver}
                 Welcome to Frogger!
             {:else if gameWon}
-                You win!
+                You win! Points: {points}
             {:else}
                 Game Over.
             {/if}
@@ -498,6 +510,9 @@
             {/each}
         </div>
         <button on:click={pauseGame} class='pause-button'>Pause</button>
+        <div class="top-row points">
+            Points: {points}
+        </div>
     </div>
     <div class="game-container">
         <div id="finish" class="game-row finish">
@@ -716,6 +731,11 @@
         display: flex;
         align-items: center;
     }
+    .points {
+        margin-left: 30px;
+        width: 150px;
+        justify-content: end;
+    }
     .game-row {
         padding-top: 15px;
         padding-bottom: 15px;
@@ -729,7 +749,7 @@
         align-items: center;
     }
     .pause-button {
-        margin-left: 10px;
+        margin-left: 30px;
         background-color: var(--main-text-color);
         color: var(--main-background-color);
     }

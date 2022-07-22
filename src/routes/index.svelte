@@ -83,8 +83,10 @@
                         </div>
                         <div id="games">
                             <h1>games</h1>
-                            <a class="white-link" href="/games/snake">snake</a>
-                            <a class="white-link" href="/games/frogger">frogger</a>
+                            <div class="connect">
+                                <a class="white-link" href="/games/snake">snake</a>
+                                <a class="white-link" href="/games/frogger">frogger</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -276,6 +278,7 @@
         padding: 2vw;
         font-size: 17px;
         background-color: var(--main-background-color);
+        min-height: 1000px;
     }
     .navigation {
         margin-top: -20px;
